@@ -108,24 +108,25 @@ export default {
     },
 
     async toggleStatus(task) {
-  const token = localStorage.getItem('access_token');
-  try {
-    console.log('Toggling task:', task.id, '→', !task.completed);
+    const token = localStorage.getItem('access_token');
+    try {
+      console.log('Toggling task:', task.id, '→', !task.completed);
     
-    await axios.patch(
-      `${import.meta.env.VITE_API_URL}/tasks/${task.id}`,
-      { completed: !task.completed },
-      {
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` 
-        },
-        // withCredentials: true 
-      }
-    );
-    
-    task.completed = !task.completed;
-    this.refreshTasks();
+    const originalStatus = task.completed;
+    task.completed = !task.completed; 
+
+    try {
+      await axios.patch(`${import.meta.env.VITE_API_URL}/tasks/${task.id}`, {
+        completed: task.completed,
+        }, {
+        headers: { Authorization: `Bearer ${token}` },
+        });
+      } catch (err) {
+    // If failed, revert the change
+    task.completed = originalStatus;
+    console.error('Toggle failed:', err);
+}
+      
     
   } catch (err) {
     console.error('Failed to toggle task status:', err);
