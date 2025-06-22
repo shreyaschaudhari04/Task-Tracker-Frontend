@@ -2,7 +2,7 @@
 
 🌟 **Task Tracker Frontend** is a modern task management app built using **Vue 3**, designed for fast, secure task tracking with user authentication and task CRUD operations.  
 It integrates with a Nest.js + MongoDB backend and is designed for deployment on **Netlify**.
-[Try It Out]([https://your-backend-url.com](https://tasktrackerv001.netlify.app/)
+[Try It Out](https://tasktrackerv001.netlify.app/)
 
 
 ---
