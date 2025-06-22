@@ -1,4 +1,7 @@
 import { createStore } from 'vuex';
+import { useToast } from 'vue-toastification';
+import router from '../router';  
+
 
 export default createStore({
   state() {

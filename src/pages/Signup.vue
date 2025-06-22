@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center items-center min-h-screen bg-gray-100">
-    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <div class="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
       <h2 class="text-2xl font-bold mb-6 text-center">Create Account</h2>
 
       <form @submit.prevent="handleSignup" class="space-y-4">
@@ -45,7 +45,7 @@
 
         <button
           type="submit"
-          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
+          class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl hover:py-2.5 transition-all duration-200 ease-in-out"
           :disabled="loading"
         >
           {{ loading ? 'Signing up...' : 'Signup' }}
@@ -62,6 +62,7 @@ import axios from 'axios';
 import useVuelidate from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { reactive } from 'vue';
+import { useToast } from 'vue-toastification';
 
 export default {
   name: 'Signup',
@@ -104,7 +105,9 @@ export default {
           password: this.form.password,
         });
 
-        this.$router.push('/tasks');
+        this.$router.push('/login');
+        const toast = useToast();
+        toast.success("Sign Up successful. Try Logging In");
       } catch (err) {
         this.error = err.response?.data?.message || 'Signup failed. Please try again.';
       } finally {

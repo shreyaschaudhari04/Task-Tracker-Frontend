@@ -1,6 +1,6 @@
 <template>
-  <nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center shadow">
-    <h1 class="text-lg font-bold">Task Tracker</h1>
+  <nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center shadow sticky top-0 z-50">
+    <h1 class="text-2xl font-serif font-extrabold sticky">Task Tracker</h1>
 
     <div v-if="isAuthenticated">
       <span class="mr-4">Hello, {{ username }}</span>
@@ -13,14 +13,16 @@
     </div>
 
     <div v-else class="space-x-4">
-      <router-link to="/login" class="hover:underline">Login</router-link>
-      <router-link to="/signup" class="hover:underline">Signup</router-link>
+      <router-link to="/login" class="bg-white text-blue-600 font-medium rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:bg-blue-100 hover:shadow hover:scale-105 hover:py-2 hover:px-3.5">Login</router-link>
+
+      <router-link to="/signup" class="bg-white text-blue-600 font-medium rounded-lg px-3 py-1.5 transition-all duration-200 ease-in-out hover:bg-blue-100 hover:shadow hover:scale-105 hover:py-2 hover:px-3.5">Signup</router-link>
     </div>
   </nav>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import { useToast } from 'vue-toastification'
 
 export default {
   name: 'Navbar',
@@ -39,6 +41,7 @@ export default {
   },
   methods: {
     ...mapActions(['logout']),
+    
   },
 };
 </script>

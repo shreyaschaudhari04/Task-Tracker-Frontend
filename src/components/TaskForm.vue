@@ -38,6 +38,7 @@
 <script>
 import { watch, ref } from 'vue';
 import axios from 'axios';
+import { useToast } from 'vue-toastification';
 
 export default {
   name: 'TaskForm',
@@ -51,6 +52,7 @@ export default {
     });
 
     const error = ref('');
+    const toast = useToast();
 
     watch(
       () => props.editTask,
@@ -76,10 +78,12 @@ export default {
           await axios.patch(`${url}/${taskId}`, task.value, {
             headers: { Authorization: `Bearer ${token}` },
           });
+          toast.success('Task updated successfully!');
         } else {
           await axios.post(url, task.value, {
             headers: { Authorization: `Bearer ${token}` },
           });
+          toast.success('Task added successfully!');
         }
 
         emit('task-saved');

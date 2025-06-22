@@ -73,6 +73,7 @@
 <script>
 import axios from 'axios';
 import TaskForm from './TaskForm.vue';
+import { useToast } from 'vue-toastification';
 
 export default {
   name: 'TaskList',
@@ -121,6 +122,7 @@ export default {
         }, {
         headers: { Authorization: `Bearer ${token}` },
         });
+        
       } catch (err) {
     // If failed, revert the change
     task.completed = originalStatus;
@@ -146,6 +148,8 @@ export default {
           headers: { Authorization: `Bearer ${token}` },
         });
         this.tasks = this.tasks.filter(t => t.id !== task.id);
+        const toast = useToast();
+        toast.warning("Task deleted!");
       } catch (err) {
         console.error('Delete failed:', err);
       }
