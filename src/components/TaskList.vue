@@ -145,7 +145,7 @@ export default {
         await axios.delete(`${import.meta.env.VITE_API_URL}/tasks/${task.id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        this.refreshTasks();
+        this.tasks = this.tasks.filter(t => t.id !== task.id);
       } catch (err) {
         console.error('Delete failed:', err);
       }

@@ -24,8 +24,9 @@
         <button
           type="submit"
           class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
+          :disabled="loading"
         >
-          Login
+          {{ loading ? 'Logging in...' : 'Login' }}
         </button>
 
         <p v-if="error" class="text-red-600 mt-2 text-sm text-center">{{ error }}</p>
@@ -47,11 +48,14 @@ export default {
         password: '',
       },
       error: '',
+      loading: false,
     };
   },
   methods: {
     ...mapMutations(['setToken']),
+
     async handleLogin() {
+      this.loading = true;
       try {
         const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, {
           username: this.form.username,
@@ -61,7 +65,9 @@ export default {
         this.setToken(res.data.access_token);
         this.$router.push('/tasks');
       } catch (err) {
-        this.error = err.response?.data?.message || 'Login failed. Please try again.';
+        this.error = 'Login failed';
+      } finally {
+        this.loading = false;
       }
     },
   },

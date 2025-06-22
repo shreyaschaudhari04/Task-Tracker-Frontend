@@ -2,6 +2,7 @@
   <div class="flex justify-center items-center min-h-screen bg-gray-100">
     <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
       <h2 class="text-2xl font-bold mb-6 text-center">Create Account</h2>
+
       <form @submit.prevent="handleSignup" class="space-y-4">
         <div>
           <label class="block mb-1 font-medium">Username</label>
@@ -9,8 +10,9 @@
             type="text"
             v-model="form.username"
             class="w-full px-4 py-2 border rounded"
+            :class="{ 'border-red-500': v$.username.$error }"
           />
-          <p v-if="!v$.username.required && v$.username.$dirty" class="text-red-500 text-sm">
+          <p v-if="v$.username.$error && v$.username.$dirty" class="text-red-500 text-sm">
             Username is required
           </p>
         </div>
@@ -21,8 +23,9 @@
             type="password"
             v-model="form.password"
             class="w-full px-4 py-2 border rounded"
+            :class="{ 'border-red-500': v$.password.$error }"
           />
-          <p v-if="!v$.password.minLength && v$.password.$dirty" class="text-red-500 text-sm">
+          <p v-if="v$.password.$error && v$.password.$dirty" class="text-red-500 text-sm">
             Password must be at least 6 characters
           </p>
         </div>
@@ -33,8 +36,9 @@
             type="password"
             v-model="form.confirmPassword"
             class="w-full px-4 py-2 border rounded"
+            :class="{ 'border-red-500': form.confirmPassword && form.confirmPassword !== form.password }"
           />
-          <p v-if="form.confirmPassword !== form.password && form.confirmPassword" class="text-red-500 text-sm">
+          <p v-if="form.confirmPassword && form.confirmPassword !== form.password" class="text-red-500 text-sm">
             Passwords do not match
           </p>
         </div>
@@ -42,9 +46,11 @@
         <button
           type="submit"
           class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
+          :disabled="loading"
         >
-          Sign Up
+          {{ loading ? 'Signing up...' : 'Signup' }}
         </button>
+
         <p v-if="error" class="text-red-600 mt-2 text-sm text-center">{{ error }}</p>
       </form>
     </div>
@@ -59,7 +65,7 @@ import { reactive } from 'vue';
 
 export default {
   name: 'Signup',
-  setup(_, { emit }) {
+  setup() {
     const form = reactive({
       username: '',
       password: '',
@@ -77,6 +83,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       error: '',
     };
   },
@@ -88,15 +95,20 @@ export default {
         return;
       }
 
+      this.loading = true;
+      this.error = '';
+
       try {
         await axios.post(`${import.meta.env.VITE_API_URL}/auth/signup`, {
           username: this.form.username,
           password: this.form.password,
         });
 
-        this.$router.push('/login');
+        this.$router.push('/tasks');
       } catch (err) {
         this.error = err.response?.data?.message || 'Signup failed. Please try again.';
+      } finally {
+        this.loading = false;
       }
     },
   },
