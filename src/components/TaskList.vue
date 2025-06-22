@@ -26,10 +26,16 @@
         :key="task.id"
         class="flex items-center justify-between p-4 border rounded mb-2 bg-white shadow"
       >
-        <div class="flex items-center space-x-2">
-          <input type="checkbox" :checked="task.completed" @change="toggleStatus(task)" />
-          <span>{{ task.title }}</span>
+        <div class="flex-1">
+          <div class="flex items-center space-x-2">
+            <input type="checkbox" :checked="task.completed" @change="toggleStatus(task)" />
+              <span class="font-medium text-lg">{{ task.title }}</span>
+          </div>
+          <div v-if="task.description" class="pl-6 text-sm text-gray-500 mt-1">
+            {{ task.description }}
+          </div>
         </div>
+          
         <div class="space-x-3">
           <button @click="editTask(task)" title="Edit">✏️</button>
           <button @click="deleteTask(task)" title="Delete">🗑️</button>
@@ -50,7 +56,10 @@
       >
         <div class="flex items-center space-x-2">
           <input type="checkbox" :checked="task.completed" @change="toggleStatus(task)" />
-          <span class="line-through text-gray-500">{{ task.title }}</span>
+          <span class="line-through text-gray-500 font-medium text-lg">{{ task.title }}</span>
+          <div v-if="task.description" class="pl-6 text-sm text-gray-400 mt-1 line-through">
+            {{ task.description }}
+          </div>
         </div>
         <div class="space-x-3">
           <button @click="editTask(task)" title="Edit">✏️</button>

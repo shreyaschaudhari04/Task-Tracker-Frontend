@@ -10,7 +10,9 @@
             v-model="form.username"
             class="w-full px-4 py-2 border rounded"
           />
-          <p v-if="!$v.form.username.required && $v.form.username.$dirty" class="text-red-500 text-sm">Username is required</p>
+          <p v-if="!v$.username.required && v$.username.$dirty" class="text-red-500 text-sm">
+            Username is required
+          </p>
         </div>
 
         <div>
@@ -20,7 +22,7 @@
             v-model="form.password"
             class="w-full px-4 py-2 border rounded"
           />
-          <p v-if="!$v.form.password.minLength && $v.form.password.$dirty" class="text-red-500 text-sm">
+          <p v-if="!v$.password.minLength && v$.password.$dirty" class="text-red-500 text-sm">
             Password must be at least 6 characters
           </p>
         </div>
@@ -70,6 +72,7 @@ export default {
     };
 
     const v$ = useVuelidate(rules, form);
+
     return { form, v$ };
   },
   data() {
