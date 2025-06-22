@@ -50,7 +50,34 @@ It integrates with a Nest.js + MongoDB backend and is designed for deployment on
 ```bash
 git clone https://github.com/shreyaschaudhari04/Task-Tracker-Frontend.git
 cd Task-Tracker-Frontend
+```
 
-### Install dependencies
+### Install Dependencies
 ```bash
 npm install
+```
+
+### Set up environment
+Create a .env file and add your backend API URL:
+```bash
+VITE_API_URL=https://your-backend-url.com/api
+```
+
+### Run the app
+```bash
+npm run dev
+```
+
+## 🌐 Deployment
+
+The frontend is designed to be deployed on **Netlify**.  
+👉 Push to GitHub and connect your repo in Netlify for auto-deploy.
+
+---
+
+## 🔒 Security Measures
+
+- **JWT Authentication** for secure session management  
+- **HTTPS** via Netlify  
+- **CORS** configured in backend for trusted origins  
+
